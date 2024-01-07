@@ -22,6 +22,7 @@ const AppRoutes = (app: Application) => {
   router.get("/top-imdb", AppControllers.handleGetTopIMDB);
   //   detail
   router.get("/movie/:slug", MovieControllers.handleGetDetail);
+  router.get("/movie/source/:slug", MovieControllers.handleGetSource);
 
   return app.use("/api", router);
 };

@@ -1,4 +1,5 @@
-import { CheerioAPI } from "cheerio";
+import axios from "axios";
+import cheerio, { CheerioAPI } from "cheerio";
 
 const detail = async ($: CheerioAPI) => {
   const dataId = $("#main-wrapper .detail_page-watch").attr("data-id");
@@ -62,6 +63,23 @@ const detail = async ($: CheerioAPI) => {
       };
     });
 
+  let servers;
+  const fetchServers = await axios.get(
+    "https://flixhq.to/ajax/movie/episodes/" + dataId
+  );
+
+  if (fetchServers.data) {
+    const $_server = cheerio.load(fetchServers.data);
+    servers = $_server(".server-select .nav .nav-item")
+      .get()
+      .map((server) => {
+        return {
+          title: $_server(".link-item span", server).text(),
+          linkId: $_server(".link-item", server).attr("data-linkid"),
+        };
+      });
+  }
+
   return {
     dataId,
     cover,
@@ -76,13 +94,16 @@ const detail = async ($: CheerioAPI) => {
     release,
     production,
     casts,
-    servers: [],
+    servers: servers,
     relatedMovies,
   };
 };
 
+const source = async ($: CheerioAPI) => {};
+
 const MovieServices = {
   detail,
+  source,
 };
 
 export default MovieServices;
