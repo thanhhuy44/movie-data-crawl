@@ -3,6 +3,7 @@ import cheerio, { CheerioAPI } from "cheerio";
 
 const detail = async ($: CheerioAPI) => {
   const dataId = $("#main-wrapper .detail_page-watch").attr("data-id");
+
   const cover =
     $("#main-wrapper .w_b-cover")
       .attr("style")

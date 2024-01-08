@@ -44,18 +44,16 @@ const handleGetDetail = async (req: Request, res: Response) => {
 
 const handleGetSource = async (req: Request, res: Response) => {
   const episodeId = req.query.episodeId;
-  const serverId = req.query.serverId || undefined;
+  const serverId = req.query.serverId?.toString().toLowerCase() || undefined;
   const slug = req.params.slug;
-  console.log(
-    "🚀 ~ file: movie.ts:49 ~ handleGetSource ~ slug:",
-    "movie/" + slug
-  );
   if (episodeId?.toString().trim() && slug.trim()) {
     try {
       const sources = await flixhq.fetchEpisodeSources(
-        "10214476",
-        "watch-the-brothers-sun-104707",
-        StreamingServers.UpCloud
+        episodeId as string,
+        "movie/" + slug,
+        serverId === (StreamingServers.UpCloud || StreamingServers.VidCloud)
+          ? serverId
+          : undefined
       );
 
       return res.status(200).json({
