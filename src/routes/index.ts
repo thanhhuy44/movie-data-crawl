@@ -2,6 +2,7 @@ import { Application, Request, Response, Router } from "express";
 import HomeControllers from "../controllers/home";
 import AppControllers from "../controllers";
 import MovieControllers from "../controllers/movie";
+import TVControllers from "../controllers/tv";
 
 const router = Router();
 const AppRoutes = (app: Application) => {
@@ -20,9 +21,14 @@ const AppRoutes = (app: Application) => {
   router.get("/movie", AppControllers.handleGetAllMovies);
   router.get("/tv-show", AppControllers.handleGetAllTV);
   router.get("/top-imdb", AppControllers.handleGetTopIMDB);
-  //   detail
+  //   detail movie
   router.get("/movie/:slug", MovieControllers.handleGetDetail);
   router.get("/movie/source/:slug", MovieControllers.handleGetSource);
+  //   detail tv show
+  router.get("/tv/:slug", TVControllers.handleGetDetail);
+  router.get("/tv/episodes/:slug", TVControllers.handleGetEpisode);
+  router.get("/tv/servers/:slug", TVControllers.handleGetServers);
+  router.get("/tv/source/:slug", TVControllers.handleGetSource);
 
   return app.use("/api", router);
 };
