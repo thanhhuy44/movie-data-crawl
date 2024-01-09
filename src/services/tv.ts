@@ -55,7 +55,6 @@ const detail = async ($: CheerioAPI) => {
       const seasons = $(".slt-seasons-dropdown .ss-item")
         .get()
         .map((ss) => {
-          console.log("🚀 ~ file: tv.ts:58 ~ .map ~ ss:", ss);
           const id = $(ss).attr("data-id")?.trim() || "";
           const title = $(ss).text().trim() || "";
           return {
@@ -153,12 +152,26 @@ const episode = async ($: CheerioAPI) => {
     });
 };
 
+const servers = async ($: CheerioAPI) => {
+  return $(".server-select .nav .nav-item .link-item")
+    .get()
+    .map((server) => {
+      const id = $(server).attr("data-id")?.trim() || "";
+      const name = $(server).text().trim() || "";
+      return {
+        id,
+        name,
+      };
+    });
+};
+
 const source = async () => {};
 
 const TvServices = {
   detail,
   source,
   episode,
+  servers,
 };
 
 export default TvServices;
